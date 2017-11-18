@@ -24,7 +24,15 @@ Route::group(['middleware' => 'App\Http\Middleware\VerifyAdmin', 'prefix' => 'ad
         'home',
         [
             'as'   => 'admin.home',
-            'uses' => 'Admin\HomeController@index'
+            'uses' => 'Admin\HomeController@index',
+        ]
+    );
+
+    Route::get(
+        'epidemic/resolve/{epidemic}',
+        [
+            'as'   => 'admin.epidemic.resolve',
+            'uses' => 'Admin\EpidemicController@resolve',
         ]
     );
 

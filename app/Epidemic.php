@@ -16,4 +16,12 @@ class Epidemic extends Model
         'start_date',
         'end_date',
     ];
+
+    /**
+     * Returns reports in this epidemic
+     */
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

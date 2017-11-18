@@ -19,33 +19,39 @@
                 <div class="col-md-12">
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Running Reports</h3>
+                            <h3 class="box-title">Running Diseases</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>District</th>
-                                    <th>Disease</th>
-                                    <th>No of reports</th>
-                                    <th>No of victims</th>
-                                    <th>First reported</th>
-                                    <th>Last reported</th>
-                                    <th>Action</th>
-                                </tr>
-                                @foreach($running as $report)
+                            @if(count($running) > 0)
+                                <table class="table table-striped">
                                     <tr>
-                                        <td>{{ucfirst($report->district)}}</td>
-                                        <td>{{$report->disease->name}}</td>
-                                        <td>{{$report->no_of_reports}}</td>
-                                        <td>{{$report->no_of_victims}}</td>
-                                        <td>{{$report->first_reported}}</td>
-                                        <td>{{$report->last_reported}}</td>
-                                        <td><a class="btn btn-primary" href="#!" id=""><i class="fa fa-check-square-o"></i> Mark as resolved</a>
-                                        </td>
+                                        <th>District</th>
+                                        <th>Disease</th>
+                                        <th>No of reports</th>
+                                        <th>No of victims</th>
+                                        <th>First reported</th>
+                                        <th>Last reported</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                            </table>
+                                    @foreach($running as $report)
+                                        <tr>
+                                            <td>{{ucfirst($report->district)}}</td>
+                                            <td>{{$report->disease->name}}</td>
+                                            <td>{{$report->no_of_reports}}</td>
+                                            <td>{{$report->no_of_victims}}</td>
+                                            <td>{{$report->first_reported}}</td>
+                                            <td>{{$report->last_reported}}</td>
+                                            <td><a class="btn btn-primary" href="{{route('admin.epidemic.resolve', $report->epidemic_id)}}"
+                                                   onclick="return confirm('Mark epidemic as resolved?')" id=""><i
+                                                            class="fa fa-check-square-o"></i> Mark as resolved</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            @else
+                                No Running Diseases
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -61,29 +67,33 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>District</th>
-                                    <th>Disease</th>
-                                    <th>No of reports</th>
-                                    <th>No of victims</th>
-                                    <th>First reported</th>
-                                    <th>Last reported</th>
-                                    <th>Action</th>
-                                </tr>
-                                @foreach($review as $report)
+                            @if(count($review) > 0)
+                                <table class="table table-striped">
                                     <tr>
-                                        <td>{{ucfirst($report->district)}}</td>
-                                        <td>{{$report->disease->name}}</td>
-                                        <td>{{$report->no_of_reports}}</td>
-                                        <td>{{$report->no_of_victims}}</td>
-                                        <td>{{$report->first_reported}}</td>
-                                        <td>{{$report->last_reported}}</td>
-                                        <td><a class="btn btn-danger" href="#!" id=""><i class="fa fa-check-square-o"></i> Mark as an
-                                                epidemic</a></td>
+                                        <th>District</th>
+                                        <th>Disease</th>
+                                        <th>No of reports</th>
+                                        <th>No of victims</th>
+                                        <th>First reported</th>
+                                        <th>Last reported</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                            </table>
+                                    @foreach($review as $report)
+                                        <tr>
+                                            <td>{{ucfirst($report->district)}}</td>
+                                            <td>{{$report->disease->name}}</td>
+                                            <td>{{$report->no_of_reports}}</td>
+                                            <td>{{$report->no_of_victims}}</td>
+                                            <td>{{$report->first_reported}}</td>
+                                            <td>{{$report->last_reported}}</td>
+                                            <td><a class="btn btn-danger" href="#!" id=""><i class="fa fa-check-square-o"></i> Mark as an
+                                                    epidemic</a></td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            @else
+                                No reports needing review
+                            @endif
                         </div>
                     </div>
                 </div>
