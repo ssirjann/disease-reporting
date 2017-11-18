@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-$router->post(
+$router->get(
     '/register',
     [
         'as'    => 'api.register',
@@ -21,7 +21,7 @@ $router->post(
     ]
 );
 
-$router->post(
+$router->get(
     'login',
     [
         'as'   => 'api.monitor',
@@ -40,11 +40,19 @@ $router->group(
             }
         );
 
-        $router->post(
+        $router->get(
             'report',
             [
                 'as'   => 'api.report',
                 'uses' => 'ReportController@create',
+            ]
+        );
+
+        $router->get(
+            'report/trending',
+            [
+                'as'   => 'api.report.trending',
+                'uses' => 'ReportController@getTrending',
             ]
         );
     });

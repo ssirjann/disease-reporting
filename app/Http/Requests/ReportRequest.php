@@ -25,7 +25,7 @@ class ReportRequest extends FormRequest
     {
         return [
             'disease' => 'required|exists:diseases,name',
-            'location'   => 'required|json',
+//            'location'   => 'required|json',
             'district'   => 'required',
         ];
     }

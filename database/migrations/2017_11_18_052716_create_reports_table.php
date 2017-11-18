@@ -17,7 +17,7 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('disease_id');
-            $table->jsonb('location');
+            $table->jsonb('location')->nullable();
             $table->string('district');
             $table->timestamps();
         });

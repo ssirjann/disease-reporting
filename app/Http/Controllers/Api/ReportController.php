@@ -21,6 +21,22 @@ class ReportController extends Controller
     }
 
     /**
+     * Get a list of trending diseases
+     *
+     * @param Request $request
+     */
+    public function getTrending(Request $request)
+    {
+        try {
+            $district_id = getDistrictId($request->get('district'));
+
+
+        } catch (\Exception $e) {
+
+        }
+    }
+
+    /**
      * @param ReportRequest $request
      *
      * @return array
@@ -28,10 +44,10 @@ class ReportController extends Controller
     public function create(ReportRequest $request)
     {
         try {
-            $disease_id = Disease::where('name', $request->get('district'))->first()->id;
+            $disease_id = getDistrictId($request->get('district'));
 
             Report::create([
-                'location'   => $request->get('location'),
+                'location'   => $request->get('location') ?: null,
                 'district'   => $request->get('district'),
                 'disease_id' => $disease_id,
                 'user_id'    => Auth::guard('api')->user->id,
