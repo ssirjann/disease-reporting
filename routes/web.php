@@ -19,17 +19,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get(
-    'temp',
-    function () {
-        return view('admin.dashboard');
-    });
+Route::group(['middleware' => 'App\Http\Middleware\VerifyAdmin', 'prefix' => 'admin'], function () {
+    Route::get(
+        'home',
+        [
+            'as'   => 'admin.home',
+            'uses' => 'Admin\HomeController@index'
+        ]
+    );
 
-Route::get(
-    'log',
-    [
-        'as'   => 'admin.logs',
-        'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index',
-    ]
-);
-
+    Route::get(
+        'log',
+        [
+            'as'   => 'admin.logs',
+            'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index',
+        ]
+    );
+});

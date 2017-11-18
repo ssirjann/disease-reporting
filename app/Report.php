@@ -15,4 +15,12 @@ class Report extends Model
         'priority',
         'epidemic_id',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function disease()
+    {
+        return $this->belongsTo(Disease::class);
+    }
 }

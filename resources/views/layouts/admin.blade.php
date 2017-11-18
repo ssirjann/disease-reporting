@@ -79,7 +79,7 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img src="{{asset('img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
                             <span class="hidden-xs">Shreyam Adhiakari</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -113,7 +113,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="{{asset('img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>Shreyam Adhiakari</p>
@@ -123,10 +123,11 @@
 
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
-                <li class="active">
-                    <a href="index2.html"><i class="fa fa-circle-o"></i>
-                        Main Dashboard
+                <li class="{{ Request::route()->getName() == 'admin.home' ? 'active': '' }}">
+                    <a href="{{route('admin.home')}}"><i class="fa fa-home"></i>
+                        Home
                     </a>
+                </li>
             </ul>
         </section>
     </aside>
