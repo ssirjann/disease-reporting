@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 $router->get(
     '/register',
     [
-        'as'    => 'api.register',
+        'as'   => 'api.register',
         'uses' => 'UserController@register',
     ]
 );
@@ -52,7 +52,23 @@ $router->group(
             'disease/trending',
             [
                 'as'   => 'api.disease.trending',
-                'uses' => 'ReportController@getTrending',
+                'uses' => 'ReportController@trending',
+            ]
+        );
+
+        $router->get(
+            'disease/history',
+            [
+                'as'   => 'api.disease.history',
+                'uses' => 'ReportController@history',
+            ]
+        );
+
+        $router->get(
+            'disease/unverified',
+            [
+                'as'   => 'api.disease.unverified',
+                'uses' => 'ReportController@unverified',
             ]
         );
     });

@@ -19,7 +19,7 @@ class ReportController extends Controller
      *
      * @return array
      */
-    public function getTrending(Request $request)
+    public function trending(Request $request)
     {
         try {
             $district = $request->get('district');
@@ -37,6 +37,79 @@ class ReportController extends Controller
             return [
                 'success'  => true,
                 'diseases' => $this->formatReports($running),
+            ];
+
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return [
+                'success' => 'false',
+            ];
+        }
+    }
+
+    /**
+     * Get a list of solved diseases
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function history(Request $request)
+    {
+        try {
+            $district = $request->get('district');
+
+            $query = Report
+                ::selectRaw("count(*) as no_of_reports, disease_id, sum(no_of_victims) as no_of_victims, district, min(to_char(reports.created_at, 'Mon dd, yyyy')) as start_date, epidemic_id, max(to_char(reports.created_at, 'Mon dd, yyyy')) as end_date")
+                ->join('epidemics', 'reports.epidemic_id', '=', 'epidemics.id')
+                ->whereRaw('epidemics.end_date IS NOT NULL');
+
+            if ($district && $request->user()->isNormal()) {
+                $query->where('district', $district);
+            }
+
+            $running = $query->groupBy('disease_id', 'district', 'epidemic_id')->get();
+
+            return [
+                'success'  => true,
+                'diseases' => $this->formatReports($running, 'history'),
+            ];
+
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return [
+                'success' => 'false',
+            ];
+        }
+    }
+
+    /**
+     * Get a list of solved diseases
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function unverified(Request $request)
+    {
+        try {
+            $district = $request->get('district');
+
+            $query = Report
+                ::selectRaw("count(*) as no_of_reports, disease_id, sum(no_of_victims) as no_of_victims, district, min(to_char(reports.created_at, 'Mon dd, yyyy')) as first_reported, epidemic_id, max(to_char(reports.created_at, 'Mon dd, yyyy')) as last_reported")
+                ->whereRaw('epidemic_id IS NULL');
+
+            if ($district && $request->user()->isNormal()) {
+                $query->where('district', $district);
+            }
+
+            $running = $query->groupBy('disease_id', 'district', 'epidemic_id')->get();
+
+            return [
+                'success'  => true,
+                'diseases' => $this->formatReports($running, 'unverified'),
             ];
 
         } catch (\Exception $e) {
@@ -79,7 +152,6 @@ class ReportController extends Controller
                 'success' => false,
                 'message' => "Error!",
             ];
-
         }
     }
 
@@ -149,22 +221,36 @@ class ReportController extends Controller
      *
      * @param $reports
      *
-     * @return array
+     * @param $type
      *
+     * @return array
      */
-    private function formatReports($reports)
+    private function formatReports($reports, $type = 'trending')
     {
         $returnArray = [];
 
-        foreach ($reports as $report) {
-            $returnArray[] = [
-                'disease'        => $report->disease->name,
-                'district'       => $report->district,
-                'no_of_reports'  => $report->no_of_reports,
-                'no_of_victims'  => $report->no_of_victims,
-                'first_reported' => $report->first_reported,
-                'last_reported'  => $report->last_reported,
-            ];
+        if ($type == 'trending' || $type == 'unverified') {
+            foreach ($reports as $report) {
+                $returnArray[] = [
+                    'disease'        => $report->disease->name,
+                    'district'       => $report->district,
+                    'no_of_reports'  => $report->no_of_reports,
+                    'no_of_victims'  => $report->no_of_victims,
+                    'first_reported' => $report->first_reported,
+                    'last_reported'  => $report->last_reported,
+                ];
+            }
+        } elseif ($type = 'history') {
+            foreach ($reports as $report) {
+                $returnArray[] = [
+                    'disease'       => $report->disease->name,
+                    'district'      => $report->district,
+                    'no_of_reports' => $report->no_of_reports,
+                    'no_of_victims' => $report->no_of_victims,
+                    'start_date'    => $report->start_date,
+                    'end_date'      => $report->end_date,
+                ];
+            }
         }
 
         return $returnArray;
