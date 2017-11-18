@@ -187,9 +187,10 @@ class ReportController extends Controller
                     'first_reported' => $report->first_reported,
                     'last_reported'  => $report->last_reported,
                     'image_link'     => 'https://lh5.ggpht.com/tq3WqEUxtRyBn-d_0t3j6WKNHuJDrmLq-FE3GAYrsAMQFIaS7FIgRLfzzql2SvfvLqto=w300',
+                    'description'    => $report->disease->description,
                 ];
             }
-        } elseif ($type = 'history') {
+        } elseif ($type == 'history') {
             foreach ($reports as $report) {
                 $returnArray[] = [
                     'disease'       => $report->disease->name,
@@ -199,6 +200,7 @@ class ReportController extends Controller
                     'start_date'    => $report->start_date,
                     'end_date'      => $report->end_date,
                     'image_link'    => 'https://lh5.ggpht.com/tq3WqEUxtRyBn-d_0t3j6WKNHuJDrmLq-FE3GAYrsAMQFIaS7FIgRLfzzql2SvfvLqto=w300',
+                    'description'   => $report->disease->description,
                 ];
             }
         }
