@@ -20,6 +20,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get(
+    'temp',
+    function () {
+        return view('admin.dashboard');
+    });
+
+Route::get(
     'log',
     [
         'as'   => 'admin.logs',

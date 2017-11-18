@@ -25,7 +25,8 @@ class ReportController extends Controller
             $epidemics = Epidemic::whereRaw('end_date IS NULL')
                 ->join('reports', 'epidemics.id', '=', 'reports.epidemic_id')
                 ->where('district_id', $district_id)
-                ->orderBy('epidemics.created_at');
+                ;
+//                ->orderBy('priority DESC, epidemics.created_at DESC');
 
             var_dump($epidemics);
             die;
