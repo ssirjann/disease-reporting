@@ -13,7 +13,7 @@ class ReportRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::guard('api')->user && Auth::guard('api')->user->isAuthorized();
+        return true;
     }
 
     /**

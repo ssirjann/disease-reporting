@@ -17,7 +17,6 @@ class CreateEpidemicsTable extends Migration
             $table->increments('id');
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->integer('disease_id');
             $table->timestamps();
         });
     }

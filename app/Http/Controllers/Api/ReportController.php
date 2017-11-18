@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Disease;
+use App\Epidemic;
 use App\Report;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReportRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -30,7 +32,13 @@ class ReportController extends Controller
         try {
             $district_id = getDistrictId($request->get('district'));
 
+            $epidemics = Epidemic::whereRaw('end_date IS NULL')
+                ->join('reports', 'epidemics.id', '=', 'reports.epidemic_id')
+                ->where('district_id', $district_id)
+                ->orderBy('epidemics.created_at');
 
+            var_dump($epidemics);
+            die;
         } catch (\Exception $e) {
 
         }
@@ -44,16 +52,19 @@ class ReportController extends Controller
     public function create(ReportRequest $request)
     {
         try {
-            $priority = $request->get('no_of_victims') * Auth::guard('api')->user->isAuthorized() ? 5 : 1;
+            $priority = $request->get('no_of_victims') *
+            ($request->user() && $request->user()->isAuthorized()) ? 5 : 1;
 
-            $disease_id = getDistrictId($request->get('district'));
+            $disease_id = getDistrictId($request->get('disease'));
+//            var_dump($disease_id); die($disease_id);
 
             Report::create([
-                'location'   => $request->get('location') ?: null,
-                'district'   => $request->get('district'),
-                'disease_id' => $disease_id,
-                'priority'   => $priority,
-                'user_id'    => Auth::guard('api')->user->id,
+                'location'      => $request->get('location') ?: null,
+                'district'      => $request->get('district'),
+                'disease_id'    => $disease_id,
+                'priority'      => $priority,
+                'user_id'       => $request->user()->id,
+                'no_of_victims' => $request->get('no_of_victims'),
             ]);
 
             return [
@@ -61,6 +72,8 @@ class ReportController extends Controller
                 'message' => "Report successfully posted",
             ];
         } catch (\Exception $e) {
+            throw $e;
+
             return [
                 'success' => false,
                 'message' => "Error!",

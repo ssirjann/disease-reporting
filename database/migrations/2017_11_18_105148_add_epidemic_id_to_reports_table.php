@@ -14,7 +14,7 @@ class AddEpidemicIdToReportsTable extends Migration
     public function up()
     {
         Schema::table('reports', function (Blueprint $table) {
-            $table->integer('epidemic_id');
+            $table->integer('epidemic_id')->nullable();
         });
     }
 

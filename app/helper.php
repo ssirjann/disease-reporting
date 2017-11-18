@@ -2,5 +2,5 @@
 
 function getDistrictId($district)
 {
-    return Disease::where('name', $district)->first()->id;
+    return App\Disease::where('name', $district)->first()->id;
 }

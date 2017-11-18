@@ -25,13 +25,13 @@ class UserController extends Controller
             $user             = $request->all();
             $user['password'] = bcrypt($user['password']);
             $user             = User::create($user);
-            $user->api_token      = str_random(15);
+            $user->api_token  = str_random(15);
             $user->save();
             DB::commit();
 
             return [
-                'success' => true,
-                'token'   => $user->api_token,
+                'success'   => true,
+                'api_token' => $user->api_token,
             ];
         } catch (\Exception $e) {
             DB::rollback();
@@ -62,15 +62,16 @@ class UserController extends Controller
                 $user->save();
 
                 return [
-                    'success' => true,
-                    'token'   => $user->api_token,
+                    'success'   => true,
+                    'api_token' => $user->api_token,
+                    'type'      => $user->type,
                 ];
             }
         }
 
         return [
-            'success' => false,
-            'message' => 'Username/Password Error',
+            'success'   => false,
+            'api_token' => '',
         ];
     }
 }
