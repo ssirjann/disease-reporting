@@ -13,16 +13,6 @@ use Illuminate\Support\Facades\Auth;
 class ReportController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Get a list of trending diseases
      *
      * @param Request $request
@@ -56,7 +46,6 @@ class ReportController extends Controller
             ($request->user() && $request->user()->isAuthorized()) ? 5 : 1;
 
             $disease_id = getDistrictId($request->get('disease'));
-//            var_dump($disease_id); die($disease_id);
 
             Report::create([
                 'location'      => $request->get('location') ?: null,
@@ -72,8 +61,6 @@ class ReportController extends Controller
                 'message' => "Report successfully posted",
             ];
         } catch (\Exception $e) {
-            throw $e;
-
             return [
                 'success' => false,
                 'message' => "Error!",
