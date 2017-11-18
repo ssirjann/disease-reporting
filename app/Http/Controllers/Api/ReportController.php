@@ -28,7 +28,8 @@ class ReportController extends Controller
 
             $query = Report
                 ::selectRaw("count(*) as no_of_reports, disease_id, sum(no_of_victims) as no_of_victims, district, min(to_char(reports.created_at, 'Mon dd, yyyy')) as first_reported, epidemic_id, max(to_char(reports.created_at, 'Mon dd, yyyy')) as last_reported")
-                ->join('epidemics', 'reports.epidemic_id', '=', 'epidemics.id');
+                ->join('epidemics', 'reports.epidemic_id', '=', 'epidemics.id')
+                ->whereRaw('epidemics.end_date IS NULL');
 
             if ($district && $request->user()->isNormal()) {
                 $query->where('district', $district);
