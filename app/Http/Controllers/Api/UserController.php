@@ -73,5 +73,4 @@ class UserController extends Controller
             'message' => 'Username/Password Error',
         ];
     }
-
 }

@@ -17,7 +17,7 @@ $router->post(
     '/register',
     [
         'as'    => 'api.register',
-        'uses' => 'Api\UserController@register',
+        'uses' => 'UserController@register',
     ]
 );
 
@@ -25,7 +25,7 @@ $router->post(
     'login',
     [
         'as'   => 'api.monitor',
-        'uses' => 'Api\UserController@login',
+        'uses' => 'UserController@login',
     ]
 );
 
@@ -38,5 +38,13 @@ $router->group(
             function (Request $request) {
                 return $request->user();
             }
+        );
+
+        $router->post(
+            'report',
+            [
+                'as'   => 'api.report',
+                'uses' => 'ReportController@create',
+            ]
         );
     });
