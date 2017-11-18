@@ -11,5 +11,7 @@ class Report extends Model
         'disease_id',
         'location',
         'district',
+        'priority',
+        'epidemic_id',
     ];
 }
