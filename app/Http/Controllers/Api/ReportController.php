@@ -16,22 +16,35 @@ class ReportController extends Controller
      * Get a list of trending diseases
      *
      * @param Request $request
+     *
+     * @return array
      */
     public function getTrending(Request $request)
     {
         try {
-            $district_id = getDistrictId($request->get('district'));
+            $district = $request->get('district');
 
-            $epidemics = Epidemic::whereRaw('end_date IS NULL')
-                ->join('reports', 'epidemics.id', '=', 'reports.epidemic_id')
-                ->where('district_id', $district_id)
-                ;
-//                ->orderBy('priority DESC, epidemics.created_at DESC');
+            $query = Report
+                ::selectRaw("count(*) as no_of_reports, disease_id, sum(no_of_victims) as no_of_victims, district, min(to_char(reports.created_at, 'Mon dd, yyyy')) as first_reported, epidemic_id, max(to_char(reports.created_at, 'Mon dd, yyyy')) as last_reported")
+                ->join('epidemics', 'reports.epidemic_id', '=', 'epidemics.id');
 
-            var_dump($epidemics);
-            die;
+            if ($district && $request->user()->isNormal()) {
+                $query->where('district', $district);
+            }
+
+            $running = $query->groupBy('disease_id', 'district', 'epidemic_id')->get();
+
+            return [
+                'success'  => true,
+                'diseases' => $this->formatReports($running),
+            ];
+
         } catch (\Exception $e) {
+            \Log::error($e);
 
+            return [
+                'success' => 'false',
+            ];
         }
     }
 
@@ -129,5 +142,31 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         //
+    }
+
+    /**
+     * Return a json for given reports
+     *
+     * @param $reports
+     *
+     * @return array
+     *
+     */
+    private function formatReports($reports)
+    {
+        $returnArray = [];
+
+        foreach ($reports as $report) {
+            $returnArray[] = [
+                'disease'        => $report->disease->name,
+                'district'       => $report->district,
+                'no_of_reports'  => $report->no_of_reports,
+                'no_of_victims'  => $report->no_of_victims,
+                'first_reported' => $report->first_reported,
+                'last_reported'  => $report->last_reported,
+            ];
+        }
+
+        return $returnArray;
     }
 }

@@ -49,9 +49,9 @@ $router->group(
         );
 
         $router->get(
-            'report/trending',
+            'disease/trending',
             [
-                'as'   => 'api.report.trending',
+                'as'   => 'api.disease.trending',
                 'uses' => 'ReportController@getTrending',
             ]
         );

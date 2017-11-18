@@ -41,7 +41,8 @@
                                         <td>{{$report->no_of_victims}}</td>
                                         <td>{{$report->first_reported}}</td>
                                         <td>{{$report->last_reported}}</td>
-                                        <td><a class="btn btn-danger" href="#!" id=""><i class="fa fa-check-square-o"></i> Mark as an epidemic</a></td>
+                                        <td><a class="btn btn-primary" href="#!" id=""><i class="fa fa-check-square-o"></i> Mark as resolved</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -78,7 +79,8 @@
                                         <td>{{$report->no_of_victims}}</td>
                                         <td>{{$report->first_reported}}</td>
                                         <td>{{$report->last_reported}}</td>
-                                        <td><a class="btn btn-primary" href="#!" id=""><i class="fa fa-check-square-o"></i> Mark as resolved</a></td>
+                                        <td><a class="btn btn-danger" href="#!" id=""><i class="fa fa-check-square-o"></i> Mark as an
+                                                epidemic</a></td>
                                     </tr>
                                 @endforeach
                             </table>

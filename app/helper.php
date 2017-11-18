@@ -1,6 +1,6 @@
 <?php
 
-function getDistrictId($district)
+function getDiseaseId($disease)
 {
-    return App\Disease::where('name', $district)->first()->id;
+    return App\Disease::where('name', $disease)->first()->id;
 }
