@@ -71,4 +71,12 @@ $router->group(
                 'uses' => 'ReportController@unverified',
             ]
         );
+
+        $router->get(
+            'suggestion',
+            [
+                'as'   => 'api.suggestion',
+                'uses' => 'ReportController@addSuggestion',
+            ]
+        );
     });

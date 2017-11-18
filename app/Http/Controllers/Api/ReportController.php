@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Disease;
 use App\Epidemic;
+use App\Http\Requests\SuggestionRequest;
 use App\Report;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReportRequest;
@@ -164,6 +165,27 @@ class ReportController extends Controller
                 'success' => false,
                 'message' => "Error!",
             ];
+        }
+    }
+
+    public function addSuggestion(SuggestionRequest $request)
+    {
+        try {
+            \DB::beginTransaction();
+
+            $disease_id = getDiseaseId($request->get('disease'));
+
+            $disease              = Disease::find($disease_id);
+            $disease->description = $request->get('text');
+            $disease->save();
+            \DB::commit();
+
+            return ['success' => true];
+        } catch (\Exception $e) {
+            \DB::rollback();
+            \Log::error($e);
+
+            return ['success' => false];
         }
     }
 
