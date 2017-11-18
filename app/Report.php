@@ -16,6 +16,10 @@ class Report extends Model
         'epidemic_id',
     ];
 
+    protected $json = [
+        'location',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

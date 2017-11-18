@@ -22,6 +22,7 @@ class ReportController extends Controller
     public function trending(Request $request)
     {
         try {
+
             $district = $request->get('district');
 
             $query = Report
@@ -36,7 +37,7 @@ class ReportController extends Controller
 
             return [
                 'success'  => true,
-                'diseases' => $this->formatReports($running),
+                'diseases' => $this->formatReports($running, 'trending'),
             ];
 
         } catch (\Exception $e) {
@@ -58,6 +59,7 @@ class ReportController extends Controller
     public function history(Request $request)
     {
         try {
+
             $district = $request->get('district');
 
             $query = Report
@@ -95,6 +97,7 @@ class ReportController extends Controller
     public function unverified(Request $request)
     {
         try {
+
             $district = $request->get('district');
 
             $query = Report
@@ -139,7 +142,7 @@ class ReportController extends Controller
             }
 
             $priority = $request->get('no_of_victims') *
-            ($request->user() && $request->user()->isAuthorized()) ? 5 : 1;
+                (($request->user() && $request->user()->isAuthorized()) ? 5 : 1);
 
             $disease_id = getDiseaseId($request->get('disease'));
 

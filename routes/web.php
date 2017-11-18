@@ -37,6 +37,14 @@ Route::group(['middleware' => 'App\Http\Middleware\VerifyAdmin', 'prefix' => 'ad
     );
 
     Route::get(
+        'epidemic/resolve/{epidemic}',
+        [
+            'as'   => 'admin.epidemic.resolve',
+            'uses' => 'Admin\EpidemicController@resolve',
+        ]
+    );
+
+    Route::get(
         'log',
         [
             'as'   => 'admin.logs',
