@@ -44,12 +44,15 @@ class ReportController extends Controller
     public function create(ReportRequest $request)
     {
         try {
+            $priority = $request->get('no_of_victims') * Auth::guard('api')->user->isAuthorized() ? 5 : 1;
+
             $disease_id = getDistrictId($request->get('district'));
 
             Report::create([
                 'location'   => $request->get('location') ?: null,
                 'district'   => $request->get('district'),
                 'disease_id' => $disease_id,
+                'priority'   => $priority,
                 'user_id'    => Auth::guard('api')->user->id,
             ]);
 

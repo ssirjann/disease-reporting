@@ -24,9 +24,10 @@ class ReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'disease' => 'required|exists:diseases,name',
+            'disease'       => 'required|exists:diseases,name',
 //            'location'   => 'required|json',
-            'district'   => 'required',
+            'district'      => 'required',
+            'no_of_victims' => 'required|integer',
         ];
     }
 }

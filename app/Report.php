@@ -11,6 +11,7 @@ class Report extends Model
         'disease_id',
         'location',
         'district',
+        'no_of_victims',
         'priority',
         'epidemic_id',
     ];
