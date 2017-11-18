@@ -12,7 +12,33 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function() {
+    return '1';
 });
+
+$router->group(
+    ['middleware' => 'auth:api'],
+    function ($router) {
+
+        $router->get(
+          '/',
+          function () {
+              return 1;
+          }
+        );
+
+        $router->post(
+            'login',
+            [
+                'as'   => 'api.monitor',
+                'uses' => 'Api\Monitor\MonitorController@getMonitorLoginData',
+            ]
+        );
+
+        $router->get(
+            'user',
+            function (Request $request) {
+                return $request->user();
+            }
+        );
+    });
