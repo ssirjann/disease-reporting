@@ -13,10 +13,10 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Report::class, function (Faker $faker) {
 
     $no_of_patients = $faker->numberBetween(1, 10);
-    $user_id        = $faker->randomElements(User::all()->pluck());
+    $user_id        = $faker->randomElements(\App\User::all()->pluck('id')->toArray())[0];
     $priority       = \App\User::find($user_id)->isAuthorized() ? 5 : 1;
     $priority       *= $no_of_patients;
 
@@ -27,6 +27,5 @@ $factory->define(App\User::class, function (Faker $faker) {
         'district'      => $faker->randomElement(['Kathmandu', 'Bhaktapur']),
         'no_of_victims' => $no_of_patients,
         'priority'      => $priority,
-        'type'          => $faker->randomElement(['authorized', 'normal']),
     ];
 });

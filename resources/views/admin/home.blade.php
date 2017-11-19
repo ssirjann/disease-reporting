@@ -44,9 +44,12 @@
                                             <td>{{$report->last_reported}}</td>
                                             <span class="{{$report->district.''}}}" data-disease-id="{{$report->disease_id}}"
                                                   data-district="{{$report->district}}"></span>
-                                            <td><a class="btn btn-primary" href="{{route('admin.epidemic.resolve', $report->epidemic_id)}}"
-                                                   onclick="return confirm('Mark epidemic as resolved?')" id=""><i
-                                                            class="fa fa-check-square-o"></i> Mark as resolved</a>
+                                            <td>
+                                                <a class="btn btn-primary" href="{{route('admin.epidemic.resolve', $report->epidemic_id)}}"
+                                                   onclick="return confirm('Mark epidemic as resolved?')" id="">
+                                                    <i class="fa fa-check-square-o"></i>
+                                                    Mark as resolved
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -91,7 +94,7 @@
                                             <td>
                                                 <form action="{{route('admin.epidemic.create')}}">
                                                     <div class="form-group col-sm-6">
-                                                        <input type="text" class="form-control" name="from" id="date-from">
+                                                        <input type="text" class="form-control date-from" name="from">
                                                         <input type="hidden" name="disease_id" value="{{$report->disease_id}}">
                                                         <input type="hidden" name="district" value="{{$report->district}}">
                                                     </div>

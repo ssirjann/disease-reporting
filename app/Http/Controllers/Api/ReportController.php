@@ -268,6 +268,10 @@ class ReportController extends Controller
             $locations[$index] = getDistance($lat1, $lon1, $loc['latitude'], $loc['longitude']);
         }
 
+        if (empty($locations)) {
+            $locations = [0];
+        }
+
         $distance = min($locations);
 
         return round($distance, 2);
