@@ -223,7 +223,7 @@ class ReportController extends Controller
                     'no_of_victims'  => $report->no_of_victims,
                     'first_reported' => $report->first_reported,
                     'last_reported'  => $report->last_reported,
-                    'image_link'     => 'https://lh5.ggpht.com/tq3WqEUxtRyBn-d_0t3j6WKNHuJDrmLq-FE3GAYrsAMQFIaS7FIgRLfzzql2SvfvLqto=w300',
+                    'image_link'     => asset("img/diseases/{$report->disease->id}.jpg"),
                     'description'    => $report->disease->description,
                 ];
             }
@@ -236,7 +236,7 @@ class ReportController extends Controller
                     'no_of_victims' => $report->no_of_victims,
                     'start_date'    => $report->start_date,
                     'end_date'      => $report->end_date,
-                    'image_link'    => 'https://lh5.ggpht.com/tq3WqEUxtRyBn-d_0t3j6WKNHuJDrmLq-FE3GAYrsAMQFIaS7FIgRLfzzql2SvfvLqto=w300',
+                    'image_link'    => asset("img/diseases/{$report->disease->id}.jpg"),
                     'description'   => $report->disease->description,
                 ];
             }
