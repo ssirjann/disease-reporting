@@ -23,7 +23,6 @@ class ReportController extends Controller
     public function trending(Request $request)
     {
         try {
-
             $district = $request->get('district');
 
             $query = Report
@@ -36,6 +35,10 @@ class ReportController extends Controller
             }
 
             $running = $query->groupBy('disease_id', 'district', 'epidemic_id')->get();
+
+            foreach ($running as &$report) {
+                $report->district = $this->getMinDistance($request, $report, 'trending');
+            }
 
             return [
                 'success'  => true,
@@ -75,6 +78,10 @@ class ReportController extends Controller
 
             $running = $query->groupBy('disease_id', 'district', 'epidemic_id')->get();
 
+            foreach ($running as &$report) {
+                $report->district = $this->getMinDistance($request, $report, 'trending');
+            }
+
             return [
                 'success'  => true,
                 'diseases' => $this->formatReports($running, 'history'),
@@ -111,6 +118,10 @@ class ReportController extends Controller
             }
 
             $running = $query->groupBy('disease_id', 'district', 'epidemic_id')->get();
+
+            foreach ($running as &$report) {
+                $report->district = $this->getMinDistance($request, $report, 'trending');
+            }
 
             return [
                 'success'  => true,
@@ -232,5 +243,33 @@ class ReportController extends Controller
         }
 
         return $returnArray;
+    }
+
+    public function getMinDistance($request, $report, $type)
+    {
+        $lat1 = $request->get('latitude');
+        $lon1 = $request->get('longitude');
+
+        $locations = Report::where('district', $report->district)->where('disease_id', $report->disease_id);
+
+        if ($type == 'trending') {
+            $locations = $locations->join('epidemics', 'reports.epidemic_id', '=', 'epidemics.id')->whereNull('end_date');
+        } elseif ($type == 'history') {
+            $locations = $locations->join('epidemics', 'reports.epidemic_id', '=', 'epidemics.id')->whereNotNull('end_date');
+        } elseif ($type == 'unverified') {
+            $locations = $locations->whereNull('epidemic_id');
+        }
+
+        $locations = $locations->pluck('location');
+        $locations = $locations->toArray();
+
+        foreach ($locations as $index => $location) {
+            $loc               = json_decode($location, true);
+            $locations[$index] = getDistance($lat1, $lon1, $loc['latitude'], $loc['longitude']);
+        }
+
+        $distance = min($locations);
+
+        return round($distance, 2);
     }
 }
