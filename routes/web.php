@@ -51,4 +51,13 @@ Route::group(['middleware' => 'App\Http\Middleware\VerifyAdmin', 'prefix' => 'ad
             'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index',
         ]
     );
+
+    Route::get(
+        'epidemic/create',
+        [
+            'as'   => 'admin.epidemic.create',
+            'uses' => 'Admin\EpidemicController@create',
+        ]
+    );
+
 });

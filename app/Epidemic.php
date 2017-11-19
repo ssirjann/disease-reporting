@@ -9,7 +9,6 @@ class Epidemic extends Model
     protected $fillable = [
         'start_date',
         'end_date',
-        'disease_id',
     ];
 
     protected $dates = [

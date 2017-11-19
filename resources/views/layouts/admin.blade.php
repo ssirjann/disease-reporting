@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Disease Reporting</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
@@ -151,6 +152,13 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{asset('js/adminlte.js')}}"></script>
+<script src="{{asset('js/jquery-ui.min.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+        $( "#date-from" ).datepicker();
+    });
+</script>
 <!-- Sparkline -->
 {{--<script src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>--}}
 <!-- jvectormap  -->

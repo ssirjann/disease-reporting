@@ -30,7 +30,7 @@ $router->get(
 );
 
 $router->group(
-    ['middleware' => ['auth:api', 'App\Http\Middleware\LogApiRequest']],
+    ['middleware' => 'auth:api', 'App\Http\Middleware\LogApiRequest'],
     function ($router) {
 
         $router->get(

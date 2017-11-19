@@ -66,7 +66,7 @@ class UserController extends Controller
                     'api_token' => $user->api_token,
                     'type'      => $user->type,
                     'name'      => $user->name,
-                    'email'      => $user->email,
+                    'email'     => $user->email,
                 ];
             }
         }

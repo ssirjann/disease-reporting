@@ -42,6 +42,8 @@
                                             <td>{{$report->no_of_victims}}</td>
                                             <td>{{$report->first_reported}}</td>
                                             <td>{{$report->last_reported}}</td>
+                                            <span class="{{$report->district.''}}}" data-disease-id="{{$report->disease_id}}"
+                                                  data-district="{{$report->district}}"></span>
                                             <td><a class="btn btn-primary" href="{{route('admin.epidemic.resolve', $report->epidemic_id)}}"
                                                    onclick="return confirm('Mark epidemic as resolved?')" id=""><i
                                                             class="fa fa-check-square-o"></i> Mark as resolved</a>
@@ -76,7 +78,7 @@
                                         <th>No of victims</th>
                                         <th>First reported</th>
                                         <th>Last reported</th>
-                                        <th>Action</th>
+                                        <th>Date of start</th>
                                     </tr>
                                     @foreach($review as $report)
                                         <tr>
@@ -87,11 +89,20 @@
                                             <td>{{$report->first_reported}}</td>
                                             <td>{{$report->last_reported}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        data-target="#markEpidemicModel">
-                                                    <i class="fa fa-check-square-o"></i> Mark as an
-                                                    epidemic
-                                                </button>
+                                                <form action="{{route('admin.epidemic.create')}}">
+                                                    <div class="form-group col-sm-6">
+                                                        <input type="text" class="form-control" name="from" id="date-from">
+                                                        <input type="hidden" name="disease_id" value="{{$report->disease_id}}">
+                                                        <input type="hidden" name="district" value="{{$report->district}}">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-danger  col-sm-6">
+                                                        <i class="fa fa-check-square-o"></i> Mark as an
+                                                        epidemic
+                                                    </button>
+                                                </form>
+
+                                            </td>
+
                                         </tr>
                                     @endforeach
                                 </table>
@@ -105,35 +116,3 @@
         </section>
     </div>
 @endsection
-
-
-
-
-
-
-<div class="modal fade" id="markEpidemicModel" tabindex="-1" role="dialog" aria-labelledby="markEpidemicModelLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="markEpidemicModelLabel">
-                    Select date from which the reports should be made as a part of epidemic
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="message-text" class="form-control-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
-            </div>
-        </div>
-    </div>
-</div>
